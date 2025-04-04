@@ -5,14 +5,14 @@ const questions = [
         answer: "Paris"
     },
     {
-        question: "Who is known as father of economy?",
-        options: ["lear", "Robbins", "Adamsmith", "Marshall"],
-        answer: "Adamsmith"
+        question: "Which planet is known as red planet?",
+        options: ["Earth", "Mars", "Jupiter", "Venus"],
+        answer: "Mars"
     },
     {
-        question: "What is √25?",
-        options: ["5", "2", "10", "15"],
-        answer: "5"
+        question: "Who wrote a To Kill a Mockingbird"?,
+        options: ["Harper Lee", "Mark Twain", "J.K.Rowling", "Ernest Hemingway"],
+        answer: "Harper Lee"
     }
 ];
 
