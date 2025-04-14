@@ -1,27 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Quiz</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Quiz App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .container {
+      background: #fff;
+      padding: 30px;
+      max-width: 600px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    #choices label {
+      display: block;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      color: white;
+      background-color: #28a745;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="quiz-container">
-        <h1>Online Quiz</h1>
-        <div id="quiz">
-            <p id="question"></p>
-            <div id="options"></div>
-            <button id="next-btn">Next</button>
-        </div>
-        <div id="result" class="hidden">
-            <h2>Quiz Completed!</h2>
-            <p id="score"></p>
-            <button onclick="restartQuiz()">Restart Quiz</button>
-        </div>
+
+  <div class="container">
+    <h1>General Knowledge Quiz</h1>
+    <div id="quiz-box">
+      <p id="question">Loading question...</p>
+      <div id="choices"></div>
+      <button id="submitBtn">Submit Answer</button>
     </div>
-    <script src="script.js"></script>
+
+    <div id="result" class="hidden">
+      <h2 id="score"></h2>
+    </div>
+
+    <button id="restartBtn" class="hidden">Restart Quiz</button>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Which language runs in a web browser?",
+        options: ["Java", "C", "Python", "JavaScript"],
+        answer: "JavaScript"
+      },
+      {
+        question: "What does CSS stand for?",
+        options: ["Central Style Sheets", "Cascading Style Sheets", "Computer Style Sheets", "Colorful Style Sheets"],
+        answer: "Cascading Style Sheets"
+      },
+      {
+        question: "What year was JavaScript created?",
+        options: ["1995", "1990", "1997", "2000"],
+        answer: "1995"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    const questionEl = document.getElementById("question");
+    const choicesEl = document.getElementById("choices");
+    const submitBtn = document.getElementById("submitBtn");
+    const resultBox = document.getElementById("result");
+    const scoreText = document.getElementById("score");
+    const restartBtn = document.getElementById("restartBtn");
+
+    function loadQuestion() {
+      const current = quizData[currentQuestion];
+      questionEl.textContent = current.question;
+      choicesEl.innerHTML = "";
+
+      current.options.forEach(opt => {
+        const label = document.createElement("label");
+        label.innerHTML = `<input type="radio" name="answer" value="${opt}"> ${opt}`;
+        choicesEl.appendChild(label);
+      });
+    }
+
+    function showResult() {
+      document.getElementById("quiz-box").classList.add("hidden");
+      resultBox.classList.remove("hidden");
+      restartBtn.classList.remove("hidden");
+      scoreText.textContent = `Your Score: ${score} / ${quizData.length}`;
+    }
+
+    submitBtn.addEventListener("click", () => {
+      const selected = document.querySelector('input[name="answer"]:checked');
+      if (!selected) {
+        alert("Please choose an answer before submitting!");
+        return;
+      }
+
+      if (selected.value === quizData[currentQuestion].answer) {
+        score++;
+      }
+
+      currentQuestion++;
+
+      if (currentQuestion < quizData.length) {
+        loadQuestion();
+      } else {
+        showResult();
+      }
+    });
+
+    restartBtn.addEventListener("click", () => {
+      currentQuestion = 0;
+      score = 0;
+      resultBox.classList.add("hidden");
+      restartBtn.classList.add("hidden");
+      document.getElementById("quiz-box").classList.remove("hidden");
+      loadQuestion();
+    });
+
+    // Start
+    loadQuestion();
+  </script>
+
 </body>
 </html>
-
-
